@@ -2,28 +2,35 @@ using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 using UnityEngine.XR.Interaction.Toolkit.Locomotion.Teleportation;
 
+[RequireComponent(typeof(TeleportationAnchor))]
 public class TeleportHotspotFeedback : MonoBehaviour
 {
+    [Header("Visual")]
     [SerializeField] private Renderer _targetRenderer;
-    [SerializeField] private Color _idleColor = Color.cyan;
-    [SerializeField] private Color _hoverColor = Color.yellow;
+    [SerializeField] private Material _idleMaterial;
+    [SerializeField] private Material _hoverMaterial;
+
+    [Header("Audio")]
+    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioClip _hoverSound;
+    [SerializeField] private AudioClip _teleportSound;
+    [SerializeField] private bool _loopHoverSound = false;
 
     private TeleportationAnchor _teleportAnchor;
-    private GazeFeedback _gazeAudio;
-    private Material _runtimeMaterial;
     private bool _isHovered;
+    private bool _teleportStarted;
 
     private void Awake()
     {
         _teleportAnchor = GetComponent<TeleportationAnchor>();
-        _gazeAudio = FindFirstObjectByType<GazeFeedback>();
 
-        if (_targetRenderer != null)
+        SetMaterial(_idleMaterial);
+
+        if (_audioSource != null)
         {
-            _runtimeMaterial = _targetRenderer.material;
+            _audioSource.playOnAwake = false;
+            _audioSource.loop = false;
         }
-
-        SetVisualState(false);
     }
 
     private void OnEnable()
@@ -52,60 +59,97 @@ public class TeleportHotspotFeedback : MonoBehaviour
 
     private void OnHoverEntered(HoverEnterEventArgs args)
     {
-        if (_isHovered)
+        if (_teleportStarted || _isHovered)
         {
             return;
         }
 
         _isHovered = true;
-        SetVisualState(true);
 
-        if (_gazeAudio != null)
-        {
-            _gazeAudio.StartHover(gameObject);
-        }
+        SetMaterial(_hoverMaterial);
+        PlayHoverSound();
     }
 
     private void OnHoverExited(HoverExitEventArgs args)
     {
-        if (!_isHovered)
+        if (!_isHovered && !_teleportStarted)
         {
             return;
         }
 
         _isHovered = false;
-        SetVisualState(false);
 
-        if (_gazeAudio != null)
+        SetMaterial(_idleMaterial);
+
+        if (!_teleportStarted)
         {
-            _gazeAudio.StopHover(gameObject);
+            StopAudio();
         }
+
+        _teleportStarted = false;
     }
 
     private void OnTeleporting(TeleportingEventArgs args)
     {
-        if (_gazeAudio != null)
-        {
-            _gazeAudio.PlayTeleport();
-        }
-    }
-
-    private void SetVisualState(bool hovered)
-    {
-        Color color = hovered ? _hoverColor : _idleColor;
-
-        if (_runtimeMaterial == null)
+        if (_teleportStarted)
         {
             return;
         }
 
-        if (_runtimeMaterial.HasProperty("_BaseColor"))
+        _teleportStarted = true;
+        _isHovered = false;
+
+        SetMaterial(_idleMaterial);
+
+        StopAudio();
+        PlayTeleportSound();
+    }
+
+    private void PlayHoverSound()
+    {
+        if (_audioSource == null || _hoverSound == null)
         {
-            _runtimeMaterial.SetColor("_BaseColor", color);
+            return;
         }
-        else if (_runtimeMaterial.HasProperty("_Color"))
+
+        _audioSource.Stop();
+        _audioSource.clip = _hoverSound;
+        _audioSource.loop = _loopHoverSound;
+        _audioSource.Play();
+    }
+
+    private void PlayTeleportSound()
+    {
+        if (_audioSource == null || _teleportSound == null)
         {
-            _runtimeMaterial.SetColor("_Color", color);
+            return;
         }
+
+        _audioSource.Stop();
+        _audioSource.clip = _teleportSound;
+        _audioSource.loop = false;
+        _audioSource.Play();
+    }
+
+    private void StopAudio()
+    {
+        if (_audioSource == null)
+        {
+            return;
+        }
+
+        _audioSource.Stop();
+        _audioSource.clip = null;
+        _audioSource.loop = false;
+    }
+
+    private void SetMaterial(Material material)
+    {
+        if (_targetRenderer == null || material == null)
+        {
+            return;
+        }
+
+        _targetRenderer.material = material;
     }
 }

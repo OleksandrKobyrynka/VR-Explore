@@ -27,8 +27,6 @@ public class CampfireManager : MonoBehaviour, IResettable
 
     private void OnEnable()
     {
-        GameResetManager.Instance?.Register(this);
-
         foreach (var wood in _woodCollectibles)
         {
             if (wood != null)
@@ -40,8 +38,6 @@ public class CampfireManager : MonoBehaviour, IResettable
 
     private void OnDisable()
     {
-        GameResetManager.Instance?.Unregister(this);
-
         foreach (var wood in _woodCollectibles)
         {
             if (wood != null)
@@ -53,7 +49,13 @@ public class CampfireManager : MonoBehaviour, IResettable
 
     private void Start()
     {
+        GameResetManager.Instance?.Register(this);
         ResetState();
+    }
+
+    private void OnDestroy()
+    {
+        GameResetManager.Instance?.Unregister(this);
     }
 
     public void ResetState()

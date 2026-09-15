@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
-using UnityEngine.SceneManagement;
 
 public class GlobalUIManager : MonoBehaviour
 {
@@ -24,7 +23,7 @@ public class GlobalUIManager : MonoBehaviour
     {
         if (_audioMixer.GetFloat(_volumeParameterName, out float currentDb))
         {
-            _volumeSlider.value = Mathf.Pow(10, currentDb / 20);
+            _volumeSlider.SetValueWithoutNotify(Mathf.Pow(10, currentDb / 20));
         }
     }
 
@@ -36,7 +35,7 @@ public class GlobalUIManager : MonoBehaviour
 
     private void RestartGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        GameResetManager.Instance?.ResetAll();
     }
 
     private void SetVolume(float linearValue)

@@ -41,4 +41,10 @@ public class ScoreManager : MonoBehaviour
             _scoreText.text = _currentScore.ToString();
         }
     }
+
+    public void ResetScore()
+    {
+        _currentScore = 0;
+        UpdateScoreUI();
+    }
 }

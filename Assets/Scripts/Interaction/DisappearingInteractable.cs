@@ -1,14 +1,7 @@
-﻿using System;
-using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit;
+﻿using UnityEngine.XR.Interaction.Toolkit;
 
 public class DisappearingInteractable : DistanceInteractable
 {
-    [Header("Disappearing Settings")]
-    [SerializeField] private int _scoreValue = 1;
-
-    public event Action OnCollected;
-
     protected override void OnEnable()
     {
         base.OnEnable();
@@ -39,13 +32,11 @@ public class DisappearingInteractable : DistanceInteractable
     {
         if (IsInRange())
         {
-            ScoreManager.Instance.AddScore(_scoreValue);
-            OnCollected?.Invoke();
-            gameObject.SetActive(false);
+            CompleteInteraction();
         }
     }
 
-    public void ResetState()
+    public override void ResetInteractable()
     {
         gameObject.SetActive(true);
     }

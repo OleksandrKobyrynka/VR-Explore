@@ -331,8 +331,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ThrowableInteractable
   _targetRenderer: {fileID: 8512213673949767755}
-  _idleMaterial: {fileID: 2100000, guid: d01ba2a2434f18c4c9fc363fdb5c0109, type: 2}
-  _hoverMaterial: {fileID: 2100000, guid: 93918fa748aa6d74eaf7705557a49907, type: 2}
+  _hoverColor: {r: 0.49803922, g: 0.49803922, b: 0.49803922, a: 1}
+  _colorPropertyName: _BaseColor
   _audioSource: {fileID: 9200674289640115046}
   _hoverSound: {fileID: 8300000, guid: 1b3cee4b4d09e7f4a994f899595c6f47, type: 3}
   _loopHoverSound: 0

@@ -7,8 +7,9 @@ public abstract class BaseInteractableFeedback : MonoBehaviour
 {
     [Header("Base Visuals")]
     [SerializeField] protected Renderer _targetRenderer;
-    [SerializeField] protected Material _idleMaterial;
-    [SerializeField] protected Material _hoverMaterial;
+    [SerializeField] protected Color _hoverColor = Color.yellow;
+    [SerializeField] protected string _colorPropertyName = "_BaseColor";
+    [SerializeField] private int _materialIndex = 0;
 
     [Header("Base Audio")]
     [SerializeField] protected AudioSource _audioSource;
@@ -18,20 +19,27 @@ public abstract class BaseInteractableFeedback : MonoBehaviour
     protected XRBaseInteractable _interactable;
     protected bool _isHovered;
 
+    private MaterialPropertyBlock _propertyBlock;
+    private int _colorPropertyId;
+
+    private Color _originalColor;
+    private bool _hasColorProperty;
+
     protected virtual void Awake()
     {
         _interactable = GetComponent<XRBaseInteractable>();
-        SetMaterial(_idleMaterial);
 
-        if (_audioSource != null)
-        {
-            _audioSource.playOnAwake = false;
-            _audioSource.loop = false;
-        }
+        _propertyBlock = new MaterialPropertyBlock();
+        _colorPropertyId = Shader.PropertyToID(_colorPropertyName);
+
+        CacheOriginalColor();
+        ConfigureAudioSource();
     }
 
     protected virtual void OnEnable()
     {
+        ResetFeedbackState();
+
         if (_interactable == null)
         {
             return;
@@ -49,9 +57,7 @@ public abstract class BaseInteractableFeedback : MonoBehaviour
             _interactable.hoverExited.RemoveListener(OnHoverExited);
         }
 
-        _isHovered = false;
-        SetMaterial(_idleMaterial);
-        StopAudio();
+        ResetFeedbackState();
     }
 
     protected virtual void OnHoverEntered(HoverEnterEventArgs args)
@@ -62,7 +68,8 @@ public abstract class BaseInteractableFeedback : MonoBehaviour
         }
 
         _isHovered = true;
-        SetMaterial(_hoverMaterial);
+
+        SetHoverColor(true);
         PlaySound(_hoverSound, _loopHoverSound);
     }
 
@@ -74,8 +81,30 @@ public abstract class BaseInteractableFeedback : MonoBehaviour
         }
 
         _isHovered = false;
-        SetMaterial(_idleMaterial);
+
+        SetHoverColor(false);
         StopAudio();
+    }
+
+    protected void SetHoverColor(bool isHovered)
+    {
+        if (!_hasColorProperty)
+        {
+            return;
+        }
+
+        if (_targetRenderer == null)
+        {
+            return;
+        }
+
+        _targetRenderer.GetPropertyBlock(_propertyBlock, _materialIndex);
+
+        Color targetColor = isHovered ? _hoverColor : _originalColor;
+
+        _propertyBlock.SetColor(_colorPropertyId, targetColor);
+
+        _targetRenderer.SetPropertyBlock(_propertyBlock, _materialIndex);
     }
 
     protected void PlaySound(AudioClip clip, bool loop = false)
@@ -103,13 +132,56 @@ public abstract class BaseInteractableFeedback : MonoBehaviour
         _audioSource.loop = false;
     }
 
-    protected void SetMaterial(Material material)
+    protected void ResetFeedbackState()
     {
-        if (_targetRenderer == null || material == null)
+        _isHovered = false;
+        SetHoverColor(false);
+        StopAudio();
+    }
+
+    private void CacheOriginalColor()
+    {
+        if (_targetRenderer == null)
+        {
+            Debug.LogWarning($"{name}: Target Renderer is not assigned.");
+            return;
+        }
+
+        Material[] materials = _targetRenderer.sharedMaterials;
+
+        if (_materialIndex < 0 || _materialIndex >= materials.Length)
+        {
+            Debug.LogWarning($"{name}: Invalid material index {_materialIndex}.");
+            return;
+        }
+
+        Material material = materials[_materialIndex];
+
+        if (material == null)
+        {
+            Debug.LogWarning($"{name}: Material at index {_materialIndex} is null.");
+            return;
+        }
+
+        if (!material.HasProperty(_colorPropertyId))
+        {
+            Debug.LogWarning($"{name}: Material does not contain shader property {_colorPropertyName}.");
+            return;
+        }
+
+        _originalColor = material.GetColor(_colorPropertyId);
+
+        _hasColorProperty = true;
+    }
+
+    private void ConfigureAudioSource()
+    {
+        if (_audioSource == null)
         {
             return;
         }
 
-        _targetRenderer.sharedMaterial = material;
+        _audioSource.playOnAwake = false;
+        _audioSource.loop = false;
     }
 }

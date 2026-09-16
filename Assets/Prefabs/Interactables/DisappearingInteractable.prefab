@@ -257,8 +257,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DisappearingInteractable
   _targetRenderer: {fileID: 6847135502189737156}
-  _idleMaterial: {fileID: 2100000, guid: 34dd08275ded64f44a42625df0c90bbe, type: 2}
-  _hoverMaterial: {fileID: 2100000, guid: 14fa2c95feac63c408752a54db03950a, type: 2}
+  _hoverColor: {r: 0.8156863, g: 0.7411765, b: 0.67058825, a: 1}
+  _colorPropertyName: _BaseColor
   _audioSource: {fileID: 7959434626992591152}
   _hoverSound: {fileID: 8300000, guid: aa9322d9e4f88df488b07c7853ea2436, type: 3}
   _loopHoverSound: 0

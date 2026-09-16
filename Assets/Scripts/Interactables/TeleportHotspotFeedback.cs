@@ -67,7 +67,7 @@ public class TeleportHotspotFeedback : BaseInteractableFeedback
         _teleportStarted = true;
         _isHovered = false;
 
-        SetMaterial(_idleMaterial);
+        SetHoverColor(false);
         PlaySound(_teleportSound, false);
     }
 }

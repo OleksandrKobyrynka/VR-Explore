@@ -229,8 +229,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TeleportHotspotFeedback
   _targetRenderer: {fileID: 7254101140327699801}
-  _idleMaterial: {fileID: 2100000, guid: 7d6b9a5c586651a4ca701fb584524632, type: 2}
-  _hoverMaterial: {fileID: 2100000, guid: e817ec7659985ac44ba86bf3a48880af, type: 2}
+  _hoverColor: {r: 0.5647059, g: 0.40784314, b: 0.28235295, a: 1}
+  _colorPropertyName: _BaseColor
   _audioSource: {fileID: 4771182294810103536}
   _hoverSound: {fileID: 8300000, guid: d561e703316ef6c4aa8ee29edefa0a72, type: 3}
   _loopHoverSound: 0

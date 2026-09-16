@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class CampfireManager : BaseCollectionManager
+public class CampfireManager : VisualCollectionManager
 {
     [Header("Campfire Specific")]
     [SerializeField] private GameObject _pointLight;

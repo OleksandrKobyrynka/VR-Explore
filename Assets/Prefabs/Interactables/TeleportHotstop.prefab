@@ -154,7 +154,7 @@ MonoBehaviour:
   m_CustomReticle: {fileID: 0}
   m_AllowGazeInteraction: 1
   m_AllowGazeSelect: 1
-  m_OverrideGazeTimeToSelect: 0
+  m_OverrideGazeTimeToSelect: 1
   m_GazeTimeToSelect: 0.5
   m_OverrideTimeToAutoDeselectGaze: 0
   m_TimeToAutoDeselectGaze: 3
@@ -233,6 +233,7 @@ MonoBehaviour:
   _hoverMaterial: {fileID: 2100000, guid: e817ec7659985ac44ba86bf3a48880af, type: 2}
   _audioSource: {fileID: 4771182294810103536}
   _hoverSound: {fileID: 8300000, guid: d561e703316ef6c4aa8ee29edefa0a72, type: 3}
+  _loopHoverSound: 0
   _teleportSound: {fileID: 8300000, guid: a30216aae55c47446b621dd60b9d36c0, type: 3}
 --- !u!1 &6037003113142746695
 GameObject:

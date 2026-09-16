@@ -639,7 +639,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1329749873985760718}
   m_Layer: 0
-  m_Name: Berries
+  m_Name: BoxMiddlePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

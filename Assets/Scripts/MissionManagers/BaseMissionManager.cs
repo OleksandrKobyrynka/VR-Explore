@@ -1,14 +1,13 @@
 using UnityEngine;
 
 [RequireComponent(typeof(AudioSource))]
-public abstract class BaseCollectionManager : MonoBehaviour, IResettable
+public abstract class BaseMissionManager : MonoBehaviour, IResettable
 {
-    [Header("Base Collection Elements")]
+    [Header("Mission Elements")]
     [SerializeField] protected DistanceInteractable[] _interactables;
-    [SerializeField] protected GameObject[] _visualObjects;
 
     [Header("Base Audio")]
-    [SerializeField] protected AudioClip _placeSound;
+    [SerializeField] protected AudioClip _progressSound;
     [SerializeField] protected AudioClip _completeSound;
 
     protected AudioSource _audioSource;
@@ -61,14 +60,6 @@ public abstract class BaseCollectionManager : MonoBehaviour, IResettable
             _audioSource.Stop();
         }
 
-        foreach (var obj in _visualObjects)
-        {
-            if (obj != null)
-            {
-                obj.SetActive(false);
-            }
-        }
-
         foreach (var item in _interactables)
         {
             if (item != null)
@@ -80,21 +71,19 @@ public abstract class BaseCollectionManager : MonoBehaviour, IResettable
 
     public virtual void AddItem()
     {
-        if (_currentCount >= _visualObjects.Length)
+        if (_currentCount >= _interactables.Length)
         {
             return;
         }
 
-        _visualObjects[_currentCount]?.SetActive(true);
-
-        if (_placeSound != null && _audioSource != null)
+        if (_progressSound != null && _audioSource != null)
         {
-            _audioSource.PlayOneShot(_placeSound);
+            _audioSource.PlayOneShot(_progressSound);
         }
 
         _currentCount++;
 
-        if (_currentCount == _visualObjects.Length)
+        if (_currentCount == _interactables.Length)
         {
             CompleteMission();
         }

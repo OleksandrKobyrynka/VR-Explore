@@ -20,33 +20,49 @@ public class ThrowableInteractable : DistanceInteractable
         _startRotation = transform.rotation;
     }
 
-    protected override void OnEnable()
+    protected override void SubscribeEvents()
     {
-        base.OnEnable();
-        if (_interactable != null)
+        base.SubscribeEvents();
+
+        if (Interactable != null)
         {
-            _interactable.selectEntered.AddListener(OnSelectEntered);
+            Interactable.selectEntered.AddListener(HandleSelectEntered);
         }
     }
 
-    protected override void OnDisable()
+    protected override void UnsubscribeEvents()
     {
-        base.OnDisable();
-        if (_interactable != null)
+        base.UnsubscribeEvents();
+
+        if (Interactable != null)
         {
-            _interactable.selectEntered.RemoveListener(OnSelectEntered);
+            Interactable.selectEntered.RemoveListener(HandleSelectEntered);
         }
     }
 
-    protected override void OnHoverEntered(HoverEnterEventArgs args)
+    public override void ResetInteractable()
+    {
+        StopAllCoroutines();
+        _isThrown = false;
+        transform.SetPositionAndRotation(_startPosition, _startRotation);
+
+        if (Interactable != null)
+        {
+            Interactable.enabled = true;
+        }
+
+        gameObject.SetActive(true);
+    }
+
+    protected override void HandleHoverEntered(HoverEnterEventArgs args)
     {
         if (IsInRange() && !_isThrown)
         {
-            base.OnHoverEntered(args);
+            base.HandleHoverEntered(args);
         }
     }
 
-    private void OnSelectEntered(SelectEnterEventArgs args)
+    private void HandleSelectEntered(SelectEnterEventArgs args)
     {
         if (IsInRange() && !_isThrown)
         {
@@ -64,9 +80,10 @@ public class ThrowableInteractable : DistanceInteractable
     private IEnumerator ThrowRoutine()
     {
         _isThrown = true;
-        if (_interactable != null)
+
+        if (Interactable != null)
         {
-            _interactable.enabled = false;
+            Interactable.enabled = false;
         }
 
         Vector3 startPos = transform.position;
@@ -101,19 +118,5 @@ public class ThrowableInteractable : DistanceInteractable
         point += tt * p2;
 
         return point;
-    }
-
-    public override void ResetInteractable()
-    {
-        StopAllCoroutines();
-        _isThrown = false;
-        transform.SetPositionAndRotation(_startPosition, _startRotation);
-
-        if (_interactable != null)
-        {
-            _interactable.enabled = true;
-        }
-
-        gameObject.SetActive(true);
     }
 }

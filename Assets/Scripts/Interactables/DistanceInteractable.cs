@@ -4,12 +4,12 @@ using UnityEngine;
 public abstract class DistanceInteractable : BaseInteractableFeedback
 {
     [Header("Distance Settings")]
-    [SerializeField] protected float _activationDistance = 2.0f;
+    [SerializeField] protected float ActivationDistance = 2.0f;
 
     [Header("Reward Settings")]
-    [SerializeField] protected int _scoreValue = 1;
+    [SerializeField] protected int ScoreValue = 1;
 
-    public event Action OnPerformed;
+    public event Action PerformedEvent;
 
     private Transform _cachedPlayerTransform;
 
@@ -25,6 +25,8 @@ public abstract class DistanceInteractable : BaseInteractableFeedback
         }
     }
 
+    public abstract void ResetInteractable();
+
     protected bool IsInRange()
     {
         if (PlayerTransform == null)
@@ -33,17 +35,15 @@ public abstract class DistanceInteractable : BaseInteractableFeedback
         }
 
         float sqrDistance = (transform.position - PlayerTransform.position).sqrMagnitude;
-        float sqrActivation = _activationDistance * _activationDistance;
+        float sqrActivation = ActivationDistance * ActivationDistance;
 
         return sqrDistance <= sqrActivation;
     }
 
     protected virtual void CompleteInteraction()
     {
-        ScoreManager.Instance.AddScore(_scoreValue);
-        OnPerformed?.Invoke();
+        ScoreManager.Instance.AddScore(ScoreValue);
+        PerformedEvent?.Invoke();
         gameObject.SetActive(false);
     }
-
-    public abstract void ResetInteractable();
 }

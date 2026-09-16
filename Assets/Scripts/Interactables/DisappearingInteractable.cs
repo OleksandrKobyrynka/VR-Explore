@@ -2,42 +2,44 @@
 
 public class DisappearingInteractable : DistanceInteractable
 {
-    protected override void OnEnable()
+    protected override void SubscribeEvents()
     {
-        base.OnEnable();
-        if (_interactable != null)
+        base.SubscribeEvents();
+
+        if (Interactable != null)
         {
-            _interactable.selectEntered.AddListener(OnSelectEntered);
+            Interactable.selectEntered.AddListener(HandleSelectEntered);
         }
     }
 
-    protected override void OnDisable()
+    protected override void UnsubscribeEvents()
     {
-        base.OnDisable();
-        if (_interactable != null)
-        {
-            _interactable.selectEntered.RemoveListener(OnSelectEntered);
-        }
-    }
+        base.UnsubscribeEvents();
 
-    protected override void OnHoverEntered(HoverEnterEventArgs args)
-    {
-        if (IsInRange())
+        if (Interactable != null)
         {
-            base.OnHoverEntered(args);
-        }
-    }
-
-    private void OnSelectEntered(SelectEnterEventArgs args)
-    {
-        if (IsInRange())
-        {
-            CompleteInteraction();
+            Interactable.selectEntered.RemoveListener(HandleSelectEntered);
         }
     }
 
     public override void ResetInteractable()
     {
         gameObject.SetActive(true);
+    }
+
+    protected override void HandleHoverEntered(HoverEnterEventArgs args)
+    {
+        if (IsInRange())
+        {
+            base.HandleHoverEntered(args);
+        }
+    }
+
+    private void HandleSelectEntered(SelectEnterEventArgs args)
+    {
+        if (IsInRange())
+        {
+            CompleteInteraction();
+        }
     }
 }

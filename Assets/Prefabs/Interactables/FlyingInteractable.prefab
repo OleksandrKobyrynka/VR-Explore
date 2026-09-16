@@ -218,14 +218,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f1b8aae62374db4589d09e018183e74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FlyingInteractable
-  _targetRenderer: {fileID: 364736064143815952}
-  _hoverColor: {r: 0.8627451, g: 0.52156866, b: 0.52156866, a: 1}
-  _colorPropertyName: _BaseColor
-  _audioSource: {fileID: 6029401496173324391}
-  _hoverSound: {fileID: 8300000, guid: 70c6126327fd2984f940110b2d019d65, type: 3}
-  _loopHoverSound: 0
-  _activationDistance: 2.5
-  _scoreValue: 1
+  TargetRenderer: {fileID: 364736064143815952}
+  HoverColor: {r: 0.8627451, g: 0.52156866, b: 0.52156866, a: 1}
+  ColorPropertyName: _BaseColor
+  AudioSource: {fileID: 6029401496173324391}
+  HoverSound: {fileID: 8300000, guid: 70c6126327fd2984f940110b2d019d65, type: 3}
+  LoopHoverSound: 0
+  _materialIndex: 0
+  ActivationDistance: 3
+  ScoreValue: 1
   _flySpeed: 6
   _arrivalDistance: 0.2
   _targetOffset: {x: 0, y: -0.3, z: 0}

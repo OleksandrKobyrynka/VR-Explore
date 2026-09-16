@@ -330,14 +330,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5868269f4bae5b043bba4942222c88fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ThrowableInteractable
-  _targetRenderer: {fileID: 8512213673949767755}
-  _hoverColor: {r: 0.49803922, g: 0.49803922, b: 0.49803922, a: 1}
-  _colorPropertyName: _BaseColor
-  _audioSource: {fileID: 9200674289640115046}
-  _hoverSound: {fileID: 8300000, guid: 1b3cee4b4d09e7f4a994f899595c6f47, type: 3}
-  _loopHoverSound: 0
-  _activationDistance: 2
-  _scoreValue: 1
+  TargetRenderer: {fileID: 8512213673949767755}
+  HoverColor: {r: 0.49803922, g: 0.49803922, b: 0.49803922, a: 1}
+  ColorPropertyName: _BaseColor
+  AudioSource: {fileID: 9200674289640115046}
+  HoverSound: {fileID: 8300000, guid: 1b3cee4b4d09e7f4a994f899595c6f47, type: 3}
+  LoopHoverSound: 0
+  _materialIndex: 0
+  ActivationDistance: 2
+  ScoreValue: 1
   _targetBasket: {fileID: 0}
   _flightDuration: 1
   _arcHeight: 4.7

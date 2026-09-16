@@ -228,12 +228,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd924db02ec8fbb4ea2b7eeca8390431, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TeleportHotspotFeedback
-  _targetRenderer: {fileID: 7254101140327699801}
-  _hoverColor: {r: 0.5647059, g: 0.40784314, b: 0.28235295, a: 1}
-  _colorPropertyName: _BaseColor
-  _audioSource: {fileID: 4771182294810103536}
-  _hoverSound: {fileID: 8300000, guid: d561e703316ef6c4aa8ee29edefa0a72, type: 3}
-  _loopHoverSound: 0
+  TargetRenderer: {fileID: 7254101140327699801}
+  HoverColor: {r: 0.5647059, g: 0.40784314, b: 0.28235295, a: 1}
+  ColorPropertyName: _BaseColor
+  AudioSource: {fileID: 4771182294810103536}
+  HoverSound: {fileID: 8300000, guid: d561e703316ef6c4aa8ee29edefa0a72, type: 3}
+  LoopHoverSound: 0
+  _materialIndex: 0
   _teleportSound: {fileID: 8300000, guid: a30216aae55c47446b621dd60b9d36c0, type: 3}
 --- !u!1 &6037003113142746695
 GameObject:

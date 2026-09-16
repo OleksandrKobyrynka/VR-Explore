@@ -12,13 +12,6 @@ public class GlobalUIManager : MonoBehaviour
     [SerializeField] private AudioMixer _audioMixer;
     [SerializeField] private string _volumeParameterName = "MasterVolume";
 
-    private void Awake()
-    {
-        _restartButton.onClick.AddListener(RestartGame);
-
-        _volumeSlider.onValueChanged.AddListener(SetVolume);
-    }
-
     private void Start()
     {
         if (_audioMixer.GetFloat(_volumeParameterName, out float currentDb))
@@ -27,7 +20,23 @@ public class GlobalUIManager : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    private void OnEnable()
+    {
+        SubscribeEvents();
+    }
+
+    private void OnDisable()
+    {
+        UnsubscribeEvents();
+    }
+
+    private void SubscribeEvents()
+    {
+        _restartButton.onClick.AddListener(RestartGame);
+        _volumeSlider.onValueChanged.AddListener(SetVolume);
+    }
+
+    private void UnsubscribeEvents()
     {
         _restartButton.onClick.RemoveListener(RestartGame);
         _volumeSlider.onValueChanged.RemoveListener(SetVolume);
@@ -41,9 +50,7 @@ public class GlobalUIManager : MonoBehaviour
     private void SetVolume(float linearValue)
     {
         float clampedValue = Mathf.Clamp(linearValue, 0.0001f, 1f);
-
         float volumeDb = Mathf.Log10(clampedValue) * 20f;
-
         _audioMixer.SetFloat(_volumeParameterName, volumeDb);
     }
 }

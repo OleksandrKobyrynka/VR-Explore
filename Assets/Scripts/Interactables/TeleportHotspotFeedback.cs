@@ -15,7 +15,7 @@ public class TeleportHotspotFeedback : BaseInteractableFeedback
     {
         base.Awake();
 
-        _teleportAnchor = _interactable as TeleportationAnchor;
+        _teleportAnchor = Interactable as TeleportationAnchor;
 
         if (_teleportAnchor == null)
         {
@@ -23,41 +23,43 @@ public class TeleportHotspotFeedback : BaseInteractableFeedback
         }
     }
 
-    protected override void OnEnable()
+    protected override void SubscribeEvents()
     {
-        base.OnEnable();
+        base.SubscribeEvents();
+
         if (_teleportAnchor != null)
         {
-            _teleportAnchor.teleporting.AddListener(OnTeleporting);
+            _teleportAnchor.teleporting.AddListener(HandleTeleporting);
         }
     }
 
-    protected override void OnDisable()
+    protected override void UnsubscribeEvents()
     {
-        base.OnDisable();
+        base.UnsubscribeEvents();
+
         if (_teleportAnchor != null)
         {
-            _teleportAnchor.teleporting.RemoveListener(OnTeleporting);
+            _teleportAnchor.teleporting.RemoveListener(HandleTeleporting);
         }
     }
 
-    protected override void OnHoverEntered(HoverEnterEventArgs args)
+    protected override void HandleHoverEntered(HoverEnterEventArgs args)
     {
         if (_teleportStarted)
         {
             return;
         }
 
-        base.OnHoverEntered(args);
+        base.HandleHoverEntered(args);
     }
 
-    protected override void OnHoverExited(HoverExitEventArgs args)
+    protected override void HandleHoverExited(HoverExitEventArgs args)
     {
-        base.OnHoverExited(args);
+        base.HandleHoverExited(args);
         _teleportStarted = false;
     }
 
-    private void OnTeleporting(TeleportingEventArgs args)
+    private void HandleTeleporting(TeleportingEventArgs args)
     {
         if (_teleportStarted)
         {
@@ -65,7 +67,7 @@ public class TeleportHotspotFeedback : BaseInteractableFeedback
         }
 
         _teleportStarted = true;
-        _isHovered = false;
+        IsHovered = false;
 
         SetHoverColor(false);
         PlaySound(_teleportSound, false);

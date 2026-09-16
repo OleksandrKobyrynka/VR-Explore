@@ -4,41 +4,29 @@ using UnityEngine;
 public abstract class BaseMissionManager : MonoBehaviour, IResettable
 {
     [Header("Mission Elements")]
-    [SerializeField] protected DistanceInteractable[] _interactables;
+    [SerializeField] protected DistanceInteractable[] Interactables;
 
     [Header("Base Audio")]
-    [SerializeField] protected AudioClip _progressSound;
-    [SerializeField] protected AudioClip _completeSound;
+    [SerializeField] protected AudioClip ProgressSound;
+    [SerializeField] protected AudioClip CompleteSound;
 
-    protected AudioSource _audioSource;
-    protected int _currentCount;
+    protected AudioSource AudioSource;
+    protected int CurrentCount;
 
     protected virtual void Awake()
     {
-        _audioSource = GetComponent<AudioSource>();
-        _audioSource.playOnAwake = false;
+        AudioSource = GetComponent<AudioSource>();
+        AudioSource.playOnAwake = false;
     }
 
     protected virtual void OnEnable()
     {
-        foreach (var item in _interactables)
-        {
-            if (item != null)
-            {
-                item.OnPerformed += AddItem;
-            }
-        }
+        SubscribeEvents();
     }
 
     protected virtual void OnDisable()
     {
-        foreach (var item in _interactables)
-        {
-            if (item != null)
-            {
-                item.OnPerformed -= AddItem;
-            }
-        }
+        UnsubscribeEvents();
     }
 
     protected virtual void Start()
@@ -54,13 +42,13 @@ public abstract class BaseMissionManager : MonoBehaviour, IResettable
 
     public virtual void ResetState()
     {
-        _currentCount = 0;
-        if (_audioSource != null)
+        CurrentCount = 0;
+        if (AudioSource != null)
         {
-            _audioSource.Stop();
+            AudioSource.Stop();
         }
 
-        foreach (var item in _interactables)
+        foreach (var item in Interactables)
         {
             if (item != null)
             {
@@ -71,29 +59,51 @@ public abstract class BaseMissionManager : MonoBehaviour, IResettable
 
     public virtual void AddItem()
     {
-        if (_currentCount >= _interactables.Length)
+        if (CurrentCount >= Interactables.Length)
         {
             return;
         }
 
-        if (_progressSound != null && _audioSource != null)
+        if (ProgressSound != null && AudioSource != null)
         {
-            _audioSource.PlayOneShot(_progressSound);
+            AudioSource.PlayOneShot(ProgressSound);
         }
 
-        _currentCount++;
+        CurrentCount++;
 
-        if (_currentCount == _interactables.Length)
+        if (CurrentCount == Interactables.Length)
         {
             CompleteMission();
         }
     }
 
+    protected virtual void SubscribeEvents()
+    {
+        foreach (var item in Interactables)
+        {
+            if (item != null)
+            {
+                item.PerformedEvent += AddItem;
+            }
+        }
+    }
+
+    protected virtual void UnsubscribeEvents()
+    {
+        foreach (var item in Interactables)
+        {
+            if (item != null)
+            {
+                item.PerformedEvent -= AddItem;
+            }
+        }
+    }
+
     protected virtual void CompleteMission()
     {
-        if (_completeSound != null && _audioSource != null)
+        if (CompleteSound != null && AudioSource != null)
         {
-            _audioSource.PlayOneShot(_completeSound);
+            AudioSource.PlayOneShot(CompleteSound);
         }
     }
 }

@@ -146,14 +146,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0abed4299d4507f459fed6fc74323b94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CampfireManager
-  _collectibles: []
-  _visualObjects:
+  Interactables: []
+  ProgressSound: {fileID: 8300000, guid: eafb36a67db44204ab5cfd5c52c9960d, type: 3}
+  CompleteSound: {fileID: 8300000, guid: 1d9ddc66b7514464b83dea96f0de2f56, type: 3}
+  VisualObjects:
   - {fileID: 1920166640791284382}
   - {fileID: 1869640500899972151}
   - {fileID: 670005841400188220}
   - {fileID: 6224923536594745463}
-  _placeSound: {fileID: 8300000, guid: eafb36a67db44204ab5cfd5c52c9960d, type: 3}
-  _completeSound: {fileID: 8300000, guid: 1d9ddc66b7514464b83dea96f0de2f56, type: 3}
   _pointLight: {fileID: 7590925008995884696}
   _fireParticles: {fileID: 3684176342635953089}
 --- !u!1 &670005841400188220

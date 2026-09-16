@@ -3,13 +3,13 @@ using UnityEngine;
 public abstract class VisualCollectionManager : BaseMissionManager
 {
     [Header("Visual Elements")]
-    [SerializeField] protected GameObject[] _visualObjects;
+    [SerializeField] protected GameObject[] VisualObjects;
 
     public override void ResetState()
     {
         base.ResetState();
 
-        foreach (var obj in _visualObjects)
+        foreach (var obj in VisualObjects)
         {
             if (obj != null)
             {
@@ -20,9 +20,9 @@ public abstract class VisualCollectionManager : BaseMissionManager
 
     public override void AddItem()
     {
-        if (_currentCount < _visualObjects.Length && _visualObjects[_currentCount] != null)
+        if (CurrentCount < VisualObjects.Length && VisualObjects[CurrentCount] != null)
         {
-            _visualObjects[_currentCount].SetActive(true);
+            VisualObjects[CurrentCount].SetActive(true);
         }
 
         base.AddItem();

@@ -34,17 +34,17 @@ public class ScoreManager : MonoBehaviour
         UpdateScoreUI();
     }
 
+    public void ResetScore()
+    {
+        _currentScore = 0;
+        UpdateScoreUI();
+    }
+
     private void UpdateScoreUI()
     {
         if (_scoreText != null)
         {
             _scoreText.text = _currentScore.ToString();
         }
-    }
-
-    public void ResetScore()
-    {
-        _currentScore = 0;
-        UpdateScoreUI();
     }
 }

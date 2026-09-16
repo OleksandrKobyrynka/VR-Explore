@@ -649,14 +649,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d24f004dbe8942e45ab440a8cef8aa01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BoxManager
-  _collectibles: []
-  _visualObjects:
+  Interactables: []
+  ProgressSound: {fileID: 8300000, guid: 3c0097f7869395f4f8641159b51750a3, type: 3}
+  CompleteSound: {fileID: 8300000, guid: 1d9ddc66b7514464b83dea96f0de2f56, type: 3}
+  VisualObjects:
   - {fileID: 3963575811905312148}
   - {fileID: 8319193453560103849}
   - {fileID: 1773644214716964015}
   - {fileID: 6209079815236084931}
-  _placeSound: {fileID: 8300000, guid: 3c0097f7869395f4f8641159b51750a3, type: 3}
-  _completeSound: {fileID: 8300000, guid: 1d9ddc66b7514464b83dea96f0de2f56, type: 3}
 --- !u!4 &8922195580668154822 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1329749873985760718, guid: c80a822d88583a1458bca8be62653f4b, type: 3}

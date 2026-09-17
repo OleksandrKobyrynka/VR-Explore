@@ -42,7 +42,7 @@ public abstract class DistanceInteractable : BaseInteractableFeedback
 
     protected virtual void CompleteInteraction()
     {
-        ScoreManager.Instance.AddScore(ScoreValue);
+        ScoreManager.Instance?.AddScore(ScoreValue);
         PerformedEvent?.Invoke();
         gameObject.SetActive(false);
     }

@@ -75,19 +75,16 @@ public class FlyingInteractable : DistanceInteractable
 
     private IEnumerator FlyToPlayerRoutine()
     {
-        _isFlying = true;
-
-        if (Interactable != null)
-        {
-            Interactable.enabled = false;
-        }
-
         Transform targetCamera = PlayerTransform;
 
         if (targetCamera == null)
         {
+            _isFlying = false;
+            Interactable.enabled = true;
             yield break;
         }
+
+        _isFlying = true;
 
         float sqrArrival = _arrivalDistance * _arrivalDistance;
 
